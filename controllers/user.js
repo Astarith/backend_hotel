@@ -1,6 +1,7 @@
 const User = require('../models/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const validRoles = ['admin', 'user', 'kasir', 'superadmin'];
 
 const createUser = async (req, res) => {
@@ -22,25 +23,37 @@ const createUser = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 const loginUser = async (req, res) => {
     try {
+        if (!validRoles.includes(req.body.role)) {
+            return res.status(400).json({ msg: 'Invalid role' });
+        }
         const users = await User.findAll({
             where: {
                 email: req.body.email
             }
         });
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'Email not found' });
+        } else {
+            const userRole = users[0].role;
+            if (userRole !== req.body.role) {
+                return res.status(400).json({ message: 'Role tidak cocok' });
+            }
+        }
         const match = await bcrypt.compare(req.body.password, users[0].password);
         if (!match) return res.status(400).json({ msg: 'Wrong Password' });
         const userId = users[0].id;
         const name = users[0].name;
         const username = users[0].username;
         const email = users[0].email;
-        const accessToken = jwt.sign({ userId, name, username, email }, process.env.ACCESS_TOKEN_SECRET, {
+        const accessToken = jwt.sign({ userId, name, username, email, role: req.body.role }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '20s'
         });
-        const refreshToken = jwt.sign({ userId, name, username, email }, process.env.REFRESH_TOKEN_SECRET, {
+        const refreshToken = jwt.sign({ userId, name, username, email, role: req.body.role }, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1d'
         });
         await User.update({ refresh_token: refreshToken }, {
@@ -55,8 +68,8 @@ const loginUser = async (req, res) => {
         });
         res.json({ accessToken });
     } catch (error) {
-        res.status(404).json({ message: 'Email not found' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
 module.exports = { createUser, loginUser, };
