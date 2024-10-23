@@ -1,18 +1,13 @@
 const User = require('../models/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-const getUser = async (req, res) => {
-    try {
-        const users = await User.findAll();
-        res.json(users);
-    } catch (error) {
-        console.log(error);
-    }
-}
+const validRoles = ['admin', 'user', 'kasir', 'superadmin'];
 
 const createUser = async (req, res) => {
     const { name, username, email, password, role } = req.body;
+    if (!validRoles.includes(role)) {
+        return res.status(400).json({ message: 'Invalid role' });
+    }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     try {
@@ -64,4 +59,4 @@ const loginUser = async (req, res) => {
     }
 }
 
-module.exports = { getUser, createUser, loginUser };
+module.exports = { createUser, loginUser, };

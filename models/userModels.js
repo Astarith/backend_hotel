@@ -17,6 +17,7 @@ const User = db.define('user', {
     },
     email: {
         type: DataTypes.STRING(255),
+        unique: true,
         allowNull: false
     },
     password: {
@@ -24,7 +25,7 @@ const User = db.define('user', {
         allowNull: false
     },
     role: {
-        type: DataTypes.ENUM('admin', 'user', 'kasir',),
+        type: DataTypes.ENUM('admin', 'user', 'kasir','superadmin',),
         allowNull: false
     }
 }, {
