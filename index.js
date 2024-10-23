@@ -1,7 +1,8 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const db = require("./config/database");
 const routes = require('./routes/router');
 const cors = require('cors');
-const dotenv = require("dotenv");
 
 dotenv.config();
 const app = express();
@@ -9,18 +10,18 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: true 
+    origin: true
   })
 );
 app.use(express.json());
-app.use('/api', routes);
+app.use(routes);
 
-// sequelize.authenticate()
+// db.authenticate()
 //   .then(async () => {
 //     console.log('Connection success');
-//     // await sequelize.sync();
-// })
-// .catch(err => console.log('Error: ' + err));
+//     await User.sync();
+//   })
+//   .catch(err => console.log('Error: ' + err));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
