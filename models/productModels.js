@@ -24,15 +24,15 @@ const Product = db.define('product', {
         allowNull: false
     },
     stock_quantity: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER(255),
         allowNull: false
     },
     regular_price: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER(255),
         allowNull: false
     },
     sale_price: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER(255),
         allowNull: false
     }
 }, {
