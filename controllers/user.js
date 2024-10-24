@@ -27,23 +27,11 @@ const createUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
-        if (!validRoles.includes(req.body.role)) {
-            return res.status(400).json({ msg: 'Invalid role' });
-        }
         const users = await User.findAll({
             where: {
                 email: req.body.email
             }
         });
-
-        if (users.length === 0) {
-            return res.status(404).json({ message: 'Email not found' });
-        } else {
-            const userRole = users[0].role;
-            if (userRole !== req.body.role) {
-                return res.status(400).json({ message: 'Role tidak cocok' });
-            }
-        }
         const match = await bcrypt.compare(req.body.password, users[0].password);
         if (!match) return res.status(400).json({ msg: 'Wrong Password' });
         const userId = users[0].id;
