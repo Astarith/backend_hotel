@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 const db = require("./config/database");
 const routes = require('./routes/router');
 const cors = require('cors');
-const User = require('./models/userModels'); // Impor model User
-const Reservasi = require('./models/reservasiModels');
+//const User = require('./models/userModels'); // Impor model User
+//const Reservasi = require('./models/reservasiModels');
 
 dotenv.config();
 const app = express();
