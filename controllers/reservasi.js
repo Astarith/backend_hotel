@@ -1,25 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const Reservation = require('../models/reservation');
+const Reservasi = require('../models/reservasiModels'); // Pastikan untuk menggunakan model yang benar
 
 // Tambah Reservasi Baru
-router.post('/reservations', async (req, res) => {
+router.post('/reservasi', async (req, res) => {
     try {
-        const { roomType, roomNumber, guestName, email, phoneNumber, adults, children, address, paymentMethod } = req.body;
+        const { checkin, checkout, guestName, email, phone, adult, children, address, paymentMethod } = req.body;
 
-        const newReservation = await Reservation.create({
-            roomType,
-            roomNumber,
-            guestName,
-            email,
-            phoneNumber,
-            adults,
-            children,
-            address,
-            paymentMethod
+        const newReservasi = await Reservasi.create({
+            checkin : checkin,
+            checkout : checkout,
+            guestName : guestName,
+            email : email,
+            phone : phone,
+            adult : adult,
+            children : children,
+            address : address,
+            paymentMethod: paymentMethod
         });
 
-        res.status(201).json({ message: 'Reservation successfully created', data: newReservation });
+        res.status(201).json({ message: 'Reservation successfully created', data: newReservasi });
     } catch (error) {
         res.status(500).json({ message: 'Error creating reservation', error: error.message });
     }
