@@ -4,7 +4,7 @@ const db = require("./config/database");
 const routes = require('./routes/router');
 const cors = require('cors');
 // const User = require('./models/userModels');
-// const Product = require('./models/produkModels');
+// const Product = require('./models/productModels');
 
 dotenv.config();
 const app = express();

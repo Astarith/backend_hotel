@@ -1,17 +1,17 @@
-const Produk = require('../models/produkModels');
+const Product = require('../models/productModels');
 
-const getProduk = async(req, res) => {
+const getProduct = async(req, res) => {
     try {
-        const response = await Produk.findAll();
+        const response = await Product.findAll();
         res.status(200).json(response);
     } catch (error) {
         console.log(error.message);
     }
 }
 
-const getProdukById = async(req, res) => {
+const getProductById = async(req, res) => {
     try {
-        const response = await Produk.findOne({
+        const response = await Product.findOne({
             where: {
                 id: req.params.id
             }
@@ -22,10 +22,10 @@ const getProdukById = async(req, res) => {
     }
 }
 
-const createProduk = async(req, res) => {
+const createProduct = async(req, res) => {
     const { product_name, description, category, sku, stock_quantity, regular_price, sale_price } = req.body;
     try {
-        await Produk.create({
+        await Product.create({
             product_name: product_name,
             description: description,
             category: category,
@@ -40,10 +40,10 @@ const createProduk = async(req, res) => {
     }
 }
 
-const updateProduk = async(req, res) => {
+const updateProduct = async(req, res) => {
     const { product_name, description, category, sku, stock_quantity, regular_price, sale_price } = req.body;
     try {
-        await Produk.update({
+        await Product.update({
             product_name: product_name,
             description: description,
             category: category,
@@ -62,9 +62,9 @@ const updateProduk = async(req, res) => {
     }
 }
 
-const deleteProduk = async(req, res) => {
+const deleteProduct = async(req, res) => {
     try {
-        await Produk.destroy({
+        await Product.destroy({
             where: {
                 id: req.params.id
             }
@@ -75,4 +75,4 @@ const deleteProduk = async(req, res) => {
     }
 }
 
-module.exports = { getProduk, getProdukById, createProduk, updateProduk, deleteProduk };
+module.exports = { getProduct, getProductById, createProduct, updateProduct, deleteProduct };

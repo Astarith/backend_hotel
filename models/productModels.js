@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 
-const Produk = db.define('produk', {
+const Product = db.define('product', {
     id: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -39,4 +39,4 @@ const Produk = db.define('produk', {
     freezeTableName: true
 });
 
-module.exports = Produk;
+module.exports = Product;
