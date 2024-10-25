@@ -25,7 +25,5 @@ app.use(routes);
  })
 .catch(err => console.log('Error: ' + err));
 
-//tes
-
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
