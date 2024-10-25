@@ -1,37 +1,25 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 
-const Product = db.define('product', {
+const Transaksi = db.define('transaksi', {
     id: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
         autoIncrement: true
     },
-    product_name: {
+    namaPelanggan: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    description: {
+    itemPerkg: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    category: {
+    pricePerkg: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    sku: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    stock_quantity: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    regular_price: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    sale_price: {
+    totalHarga: {
         type: DataTypes.STRING(255),
         allowNull: false
     }
@@ -39,4 +27,4 @@ const Product = db.define('product', {
     freezeTableName: true
 });
 
-module.exports = Product;
+module.exports = Transaksi;
