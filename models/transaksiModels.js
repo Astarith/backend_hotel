@@ -21,7 +21,7 @@ const Transaksi = db.define('transaksi', {
     },
     totalHarga: {
         type: DataTypes.STRING(255),
-        allowNull: false
+
     }
 }, {
     freezeTableName: true
