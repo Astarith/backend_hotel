@@ -5,6 +5,7 @@ const routes = require('./routes/router');
 const cors = require('cors');
 const User = require('./models/userModels');
 const Transaksi = require('./models/transaksiModels');
+const Harga = require('./models/hargaModels');
 
 dotenv.config();
 const app = express();

@@ -1,64 +1,36 @@
-
 const Transaksi = require('../models/transaksiModels');
+const Harga = require('../models/hargaModels');
 
 const createTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, itemPerkg, pricePerkg } = req.body;
+    const { namaPelanggan, hargaId, jumlah, kategori } = req.body;
     const transaksi = await Transaksi.create({
       namaPelanggan,
-      itemPerkg,
-      pricePerkg
+      kategori,
+      jumlah,
+      hargaId,
     });
-    transaksi.totalHarga = parseInt(transaksi.itemPerkg) * parseInt(transaksi.pricePerkg);
-    res.json({ message: 'Transaksi berhasil dibuat', transaksi });
+    
+    return res.status(201).json({ message: 'Transaksi berhasil dibuat', data: transaksi });
   } catch (error) {
-    res.status(400).json({ message: 'Gagal membuat transaksi', error });
+    return res.status(500).json({ message: 'Error', error: error.message });
   }
 };
 
-const updateTransaksi = async (req, res) => {
+const getRiwayatTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, itemPerkg, pricePerkg } = req.body;
-    const transaksi = await Transaksi.update(
-      {
-        namaPelanggan,
-        itemPerkg,
-        pricePerkg
-      },
-      {
-        where: {
-          id: req.params.id,
-        },
-      }
-    );
-    res.json({ message: 'Transaksi berhasil di update', transaksi });
-  } catch (error) {
-    res.status(400).json({ message: 'Gagal mengupdate transaksi', error });
-  }
-}
-
-const deleteTransaksi = async (req, res) => {
-  try {
-    const transaksi = await Transaksi.destroy({
-      where: {
-        id: req.params.id
-      }
+    const transaksi = await Transaksi.findAll({
+      include: [
+        {
+          model: Harga,
+          as: 'harga'
+        }
+      ]
     });
-    res.json({ message: 'Transaksi berhasil di hapus', transaksi });
+    return res.status(200).json({ message: 'Riwayat transaksi', data: transaksi });
   } catch (error) {
-    res.status(400).json({ message: 'Gagal menghapus transaksi', error });
+    return res.status(500).json({ message: 'Error', error: error.message });
   }
 };
 
-const getTransaksi = async (req, res) => {
-  try {
-    const transaksi = await Transaksi.findAll();
-    res.json({ message: 'Transaksi berhasil diambil', transaksi });
-  } catch (error) {
-    res.status(400).json({ message: 'Gagal mengambil transaksi', error });
-  }
-};
-
-
-
-module.exports = { createTransaksi, getTransaksi, deleteTransaksi, updateTransaksi };
+module.exports = { createTransaksi, getRiwayatTransaksi };
