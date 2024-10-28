@@ -33,4 +33,26 @@ const getRiwayatTransaksi = async (req, res) => {
   }
 };
 
-module.exports = { createTransaksi, getRiwayatTransaksi };
+const updateStatusTransaksi = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ['menunggu', 'selesai', 'dibatalkan'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Status tidak valid' });
+    }
+
+    const [updated] = await Transaksi.update({ status }, { where: { id } });
+
+    if (updated === 0) {
+      return res.status(404).json({ message: 'Transaksi tidak ditemukan' });
+    }
+
+    return res.status(200).json({ message: 'Status transaksi berhasil diperbarui' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Terjadi kesalahan saat memperbarui status', error: error.message });
+  }
+};
+
+module.exports = { createTransaksi, getRiwayatTransaksi, updateStatusTransaksi };

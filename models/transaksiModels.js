@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
-const Harga = require('./hargaModels'); // tambahkan ini
+const Harga = require('./hargaModels'); 
 
 
 const Transaksi = db.define('transaksi', {
@@ -31,7 +31,12 @@ const Transaksi = db.define('transaksi', {
       model: Harga,
       key: 'id'
     }
-  }
+  },
+  status: {
+    type: DataTypes.ENUM('menunggu', 'selesai', 'dibatalkan'),
+    allowNull: false,
+    defaultValue: 'menunggu',
+  },
 }, {
   freezeTableName: true,
   hooks: {
