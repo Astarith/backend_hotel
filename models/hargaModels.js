@@ -7,8 +7,8 @@ const Harga = db.define('harga', {
     primaryKey: true,
     autoIncrement: true
   },
-  kategori: {
-    type: DataTypes.ENUM('sepatu', 'selimut', 'bed_cover', 'pakaian'),
+  layanan: {
+    type: DataTypes.ENUM('dry clean', 'wash and iron', 'daily laundry'),
     multiple: true,
     allowNull: false
   },
