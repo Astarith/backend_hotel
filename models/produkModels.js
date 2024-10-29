@@ -1,4 +1,5 @@
-const { DataTypes } = require('sequelize');
+// models/produkModels.js
+const { DataTypes } = require('sequelize'); 
 const db = require('../config/database');
 
 const Produk = db.define('produk', {
@@ -24,15 +25,15 @@ const Produk = db.define('produk', {
         allowNull: false
     },
     stock_quantity: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER, // Menggunakan INTEGER untuk kuantitas
         allowNull: false
     },
     regular_price: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.DECIMAL(10, 2), // Menggunakan DECIMAL untuk harga
         allowNull: false
     },
     sale_price: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.DECIMAL(10, 2), // Menggunakan DECIMAL untuk harga
         allowNull: false
     }
 }, {

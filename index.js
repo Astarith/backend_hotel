@@ -1,10 +1,16 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const db = require("./config/database");
-const routes = require('./routes/router');
-const cors = require('cors');
-// const User = require('./models/userModels');
-// const Product = require('./models/produkModels');
+const cors = require("cors");
+
+const produkRoutes = require("./routes/routerProduk");
+const transaksiRoutes = require("./routes/routerTransaksi");
+const userRoutes = require("./routes/routerUser");
+
+const User = require("./models/userModels");
+const Product = require("./models/produkModels");
+const Transaksi = require("./models/transaksiModels");
+const DetailTransaksi = require("./models/detailtransaksiModels");
 
 dotenv.config();
 const app = express();
@@ -12,18 +18,20 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: true
   })
 );
 app.use(express.json());
-app.use(routes);
+
+app.use(produkRoutes);
+app.use(transaksiRoutes);
+app.use(userRoutes);
 
 // db.authenticate()
 //   .then(async () => {
-//     console.log('Connection success');
+//     console.log("Connection success");
 //     await db.sync({ alter: true });
 //   })
-// .catch(err => console.log('Error: ' + err));
+//   .catch((err) => console.log("Error: " + err));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
