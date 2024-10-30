@@ -3,10 +3,10 @@ const Harga = require('../models/hargaModels');
 
 const createTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, hargaId, jumlah, kategori } = req.body;
+    const { namaPelanggan, hargaId, jumlah, Layanan } = req.body;
     const transaksi = await Transaksi.create({
       namaPelanggan,
-      kategori,
+      Layanan,
       jumlah,
       hargaId,
     });

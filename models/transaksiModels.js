@@ -13,13 +13,13 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  kategori: {
-    type: DataTypes.ENUM('sepatu', 'selimut', 'bed_cover', 'pakaian'),
+  Layanan: {
+    type: DataTypes.ENUM('dry clean', 'wash and iron', 'daily laundry'),
     multiple: true,
     allowNull: false
   },
   jumlah: {
-    type: DataTypes.INTEGER(11),
+    type: DataTypes.STRING(255),
     allowNull: false
   },
   totalHarga: {
