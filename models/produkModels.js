@@ -1,4 +1,3 @@
-// models/produkModels.js
 const { DataTypes } = require('sequelize'); 
 const db = require('../config/database');
 
@@ -25,16 +24,20 @@ const Produk = db.define('produk', {
         allowNull: false
     },
     stock_quantity: {
-        type: DataTypes.INTEGER, // Menggunakan INTEGER untuk kuantitas
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     regular_price: {
-        type: DataTypes.DECIMAL(10, 2), // Menggunakan DECIMAL untuk harga
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     sale_price: {
-        type: DataTypes.DECIMAL(10, 2), // Menggunakan DECIMAL untuk harga
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
+    },
+    image_url: {
+        type: DataTypes.STRING(255),
+        allowNull: true 
     }
 }, {
     freezeTableName: true
