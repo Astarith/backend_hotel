@@ -27,12 +27,12 @@ app.use(produkRoutes);
 app.use(transaksiRoutes);
 app.use(userRoutes);
 
-db.authenticate()
-  .then(async () => {
-    console.log("Connection success");
-    await db.sync({ alter: true });
-  })
-  .catch((err) => console.log("Error: " + err));
+// db.authenticate()
+//   .then(async () => {
+//     console.log("Connection success");
+//     await db.sync({ alter: true });
+//   })
+//   .catch((err) => console.log("Error: " + err));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
