@@ -92,15 +92,69 @@ const deleteTransaksi = async (req, res) => {
 // Mengambil semua detail transaksi
 const getAllDetailTransaksi = async (req, res) => {
     try {
-        const detailTransaksi = await DetailTransaksi.findAll({
-            include: [Transaksi, Produk],
-        });
-        res.status(200).json(detailTransaksi);
+        const transaksiList = await Transaksi.findAll();
+
+        if (transaksiList.length === 0) {
+            return res.status(404).json({ message: "No transactions found" });
+        }
+
+        const allDetailTransaksi = []; // Array untuk menyimpan detail transaksi
+
+        await Promise.all(
+            transaksiList.map(async (transaksi) => {
+                const detailTransaksi = await DetailTransaksi.findAll({
+                    where: { transaksi_id: transaksi.id },
+                    include: [{
+                        model: Produk,
+                        attributes: ['product_name', 'description', 'sale_price']
+                    }]
+                });
+
+                let totalHarga = 0;
+                const uniqueProducts = new Set();
+
+                detailTransaksi.forEach((detail) => {
+                    totalHarga += parseFloat(detail.total); 
+                    uniqueProducts.add(detail.produk.product_name);
+                });
+
+                const subtotal = totalHarga + parseFloat(transaksi.biaya_layanan);
+                const totalProduk = uniqueProducts.size;
+
+                // Menambahkan objek detail transaksi ke array
+                allDetailTransaksi.push({
+                    transaksi: {
+                        id: transaksi.id,
+                        tanggal_transaksi: transaksi.tanggal_transaksi
+                    },
+                    detailTransaksi: detailTransaksi.map(detail => ({
+                        id: detail.id,
+                        produk_id: detail.produk_id,
+                        kuantitas: detail.kuantitas,
+                        harga_satuan: detail.harga_satuan,
+                        total: detail.total,
+                        status: detail.status,
+                        produk: {
+                            product_name: detail.produk.product_name,
+                            description: detail.produk.description,
+                            sale_price: detail.produk.sale_price
+                        }
+                    })),
+                    totalProduk: totalProduk,
+                    totalHarga: totalHarga,
+                    biayaLayanan: transaksi.biaya_layanan,
+                    subtotal: subtotal
+                });
+            })
+        );
+
+        res.status(200).json(allDetailTransaksi);
     } catch (error) {
         console.error("Error fetching detail transactions:", error);
         res.status(500).json({ message: "Error fetching detail transactions", error: error.message });
     }
 };
+
 
 // Menghapus detail transaksi
 const deleteDetailTransaksi = async (req, res) => {
