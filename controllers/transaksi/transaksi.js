@@ -1,6 +1,6 @@
-const Transaksi = require('../models/transaksiModels');
-const DetailTransaksi = require('../models/detailtransaksiModels');
-const Produk = require('../models/produkModels');
+const Transaksi = require('../../models/transaksiModels');
+const DetailTransaksi = require('../../models/detailtransaksiModels');
+const Produk = require('../../models/produkModels');
 
 const createTransaksi = async (req, res) => {
     const { biaya_layanan, detail_transaksi } = req.body;

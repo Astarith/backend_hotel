@@ -1,13 +1,4 @@
-const Produk = require('../models/produkModels');
-
-const getProduk = async(req, res) => {
-    try {
-        const response = await Produk.findAll();
-        res.status(200).json(response);
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+const Produk = require('../../models/produkModels');
 
 const getProdukById = async(req, res) => {
     try {
@@ -108,4 +99,4 @@ const deleteProduk = async (req, res) => {
     }
 };
 
-module.exports = { getProduk, getProdukById, createProduk, updateProduk, deleteProduk };
+module.exports = { getProdukById, createProduk, updateProduk, deleteProduk };

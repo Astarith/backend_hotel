@@ -5,7 +5,7 @@ const { createTransaksi,
     getAllDetailTransaksi,
     deleteDetailTransaksi,
     getDetailTransaksiById,
-    updateDetailTransaksiStatus, } = require ("../controllers/transaksi");
+    updateDetailTransaksiStatus, } = require ("../../controllers/transaksi/transaksi");
 
 router.post('/transaksi', createTransaksi);
 router.get('/transaksi', getAllTransaksi);
