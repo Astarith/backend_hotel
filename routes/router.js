@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const { createUser, loginUser } = require("../controllers/user");
-const { createTransaksi, getRiwayatTransaksi, updateStatusTransaksi, updateTransaksi } = require("../controllers/transaksi");
+const { createTransaksi, getRiwayatTransaksi, updateStatusTransaksi } = require("../controllers/transaksi");
 const { createHarga, updateHarga, deleteHarga, getAllHarga } = require("../controllers/createHarga");
+const protect = require("../middleware/autenticasi");
 
-router.post('/create', createUser);
+router.post('/create',protect(['admin']), createUser);
 router.post('/login', loginUser);
 router.post('/transaksi', createTransaksi);
 router.get('/riwayat-transaksi', getRiwayatTransaksi);
