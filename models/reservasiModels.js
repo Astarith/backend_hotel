@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 const User = require('./userModels');
-const { FOREIGNKEYS } = require('sequelize/lib/query-types');
 
 const Reservasi = db.define('reservasi', {
     id: {
