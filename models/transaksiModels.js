@@ -13,13 +13,17 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  Layanan: {
+  kategori: {
     type: DataTypes.ENUM('dry clean', 'wash and iron', 'daily laundry'),
     multiple: true,
     allowNull: false
   },
+  jenis: {
+    type: DataTypes.ENUM('kiloan','satuan'),
+    allowNull: false
+  },
   jumlah: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.INTEGER(255),
     allowNull: false
   },
   totalHarga: {
@@ -30,7 +34,8 @@ const Transaksi = db.define('transaksi', {
     references: {
       model: Harga,
       key: 'id'
-    }
+    },
+    allowNull: false
   },
   status: {
     type: DataTypes.ENUM('menunggu', 'selesai', 'dibatalkan'),
@@ -42,12 +47,15 @@ const Transaksi = db.define('transaksi', {
   hooks: {
     beforeCreate: async (transaksi, options) => {
       const harga = await Harga.findByPk(transaksi.hargaId);
+      if (!harga) {
+        throw new Error('Harga dengan ID yang diberikan tidak ditemukan');
+      }
       transaksi.totalHarga = harga.harga * transaksi.jumlah;
     }
   }
 });
-
+  
 Harga.hasMany(Transaksi, { foreignKey: 'hargaId' });
-Transaksi.belongsTo(Harga, { foreignKey: 'hargaId' });
+Transaksi.belongsTo(Harga, { foreignKey: 'hargaId', as: 'harga' });
 
 module.exports = Transaksi;

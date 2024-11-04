@@ -3,14 +3,23 @@ const Harga = require('../models/hargaModels');
 
 const createTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, hargaId, jumlah, Layanan } = req.body;
+    const { namaPelanggan, hargaId, jumlah, kategori, jenis } = req.body;
+
+    const harga = await Harga.findByPk(hargaId); 
+
+    if (!harga) {
+      return res.status(404).json({ message: 'Harga tidak ditemukan' });
+    }
+    const totalHarga = harga.harga * jumlah;
     const transaksi = await Transaksi.create({
       namaPelanggan,
-      Layanan,
+      kategori,
+      jenis,
       jumlah,
-      hargaId,
+      hargaId, 
+      totalHarga 
     });
-    
+
     return res.status(201).json({ message: 'Transaksi berhasil dibuat', data: transaksi });
   } catch (error) {
     return res.status(500).json({ message: 'Error', error: error.message });

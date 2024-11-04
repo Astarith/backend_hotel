@@ -16,7 +16,7 @@ app.use(routes);
 
  db.authenticate()
   .then(async () => {
-    console.log('Connection success');
+    console.log('Koneksi Database berhasil');
    await db.sync({ alter: true });
  })
 .catch(err => console.log('Error: ' + err));
