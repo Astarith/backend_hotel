@@ -4,6 +4,7 @@ const { createCheckout, deleteCheckout, updateCheckout, getCheckout,} = require(
 const { createRiwayat, deleteRiwayat, updateRiwayat, getRiwayat, } = require("../controllers/riwayat");
 const { createUser, loginUser, } = require("../controllers/user");
 const protect = require("../middleware/authentikasi");
+const { createReservasi, getReservasi } = require("../controllers/reservasi");
 
 router.post('/user', createUser);
 router.post('/login', loginUser);
@@ -19,5 +20,8 @@ router.post('/riwayat', createRiwayat);
 router.delete('/riwayat/:id', deleteRiwayat);
 router.patch('/riwayat/:id', updateRiwayat);
 router.get('/riwayat', getRiwayat);
+router.post('/register', createUser);
+router.post('/reservasi', createReservasi);
+router.get('/riwayat', getReservasi);
 
 module.exports = router;
