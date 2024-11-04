@@ -1,4 +1,4 @@
-const User = require('../models/userModels');
+const User = require('../models/user/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -26,37 +26,32 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+    const {
+        username, password
+    } = req.body;
+
     try {
-        const users = await User.findAll({
-            where: {
-                email: req.body.email
-            }
-        });
-        const match = await bcrypt.compare(req.body.password, users[0].password);
-        if (!match) return res.status(400).json({ msg: 'Wrong Password' });
-        const userId = users[0].id;
-        const name = users[0].name;
-        const username = users[0].username;
-        const email = users[0].email;
-        const accessToken = jwt.sign({ userId, name, username, email, role: req.body.role }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '20s'
-        });
-        const refreshToken = jwt.sign({ userId, name, username, email, role: req.body.role }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '1d'
-        });
-        await User.update({ refresh_token: refreshToken }, {
-            where: {
-                id: userId
-            }
-        });
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            secure: true
-        });
-        res.json({ accessToken });
+        const user = await User.findOne({ where: { username } });
+        if (!user) {
+            return res.status(401).json({ message: "Username tidak ditemukan" });
+        }
+
+        const isMatch = bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Password salah" });
+        }
+        // Generate JWT without expiration
+        const token = jwt.sign(
+            { id: user.id, role: user.role },
+            process.env.SECRET_KEY // No expiration time
+        );
+
+        // Set token akses tanpa refresh token
+        res.cookie('token', token, { httpOnly: true, sameSite: "None", secure: true, path: "/" });
+
+        res.status(200).json({ message: 'Login successful', user });
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(400).json({ message: error.message });
     }
 };
 

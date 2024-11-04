@@ -1,46 +1,50 @@
 const { DataTypes } = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 
-const Checkin = db.define('check_in', {
-    id: {
+const Checkout = db.define('check_out', {
+    id_out: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
         autoIncrement: true
     },
+    room_status: {
+        type: DataTypes.ENUM('available', 'booked',),
+        allowNull: false
+    },
     checkin: {
         type: DataTypes.STRING(255),
-        allowNull: false
+        allowNull: true
     },
     checkout: {
         type: DataTypes.STRING(255),
-        allowNull: false
+        allowNull: true
     },
-    wakeup_call: {
+    other_charge: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    purpose_of_visit: {
-        type: DataTypes.STRING(255),
+    payment_method: {
+        type: DataTypes.ENUM('cash', 'transfer',),
         allowNull: false
     },
-    id_number: {
+    payment_status: {
+        type: DataTypes.ENUM('done', 'pending',),
+        allowNull: false
+    },
+    nominal: {
         type: DataTypes.INTEGER(255),
-        allowNull: false
-    },
-    nationality: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    remarks: {
-        type: DataTypes.STRING(255),
         allowNull: false
     },
     description: {
         type: DataTypes.STRING(500),
+        allowNull: false
+    },
+    remarks: {
+        type: DataTypes.STRING(255),
         allowNull: false
     }
 }, {
     freezeTableName: true
 });
 
-module.exports = Checkin;
+module.exports = Checkout;

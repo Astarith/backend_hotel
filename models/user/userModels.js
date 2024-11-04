@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 
 const User = db.define('user', {
     id: {
@@ -17,7 +17,6 @@ const User = db.define('user', {
     },
     email: {
         type: DataTypes.STRING(255),
-        unique: true,
         allowNull: false
     },
     password: {
