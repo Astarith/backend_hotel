@@ -30,7 +30,7 @@ const createTransaksi = async (req, res) => {
                 produk_id: item.produk_id,
                 kuantitas: item.kuantitas,
                 harga_satuan: produk.sale_price,
-                total: total,  // Mengganti subtotal dengan total
+                total: total,  
             });
         });
 
