@@ -1,25 +1,25 @@
-
 const Reservasi = require('../models/reservasiModels'); 
-const User = require('../models/userModels');
+//const User = require('../models/userModels');
 const { FOREIGNKEYS } = require('sequelize/lib/query-types');
 
 const validPayment = ['transfer', 'cash'];
 
 const createReservasi = async (req, res) => {
-    const { guestName, email, phone, adult, children, address, paymentMethod, price, remarks, userId } = req.body;
+    const { guestName, lastName, email, phone, adult, children, address, paymentMethod, price, remarks, userId } = req.body;
 
     if (!validPayment.includes(paymentMethod)) {
         return res.status(400).json({ message: 'Invalid payment' });
     }
 
     try {
-        const userExists = await User.findByPk(userId);
-        if (!userExists) {
-            return res.status(400).json({ message: 'User ID does not exist' });
-        }
+        // const userExists = await User.findByPk(userId);
+        // if (!userExists) {
+        //     return res.status(400).json({ message: 'User ID does not exist' });
+        // }
 
         await Reservasi.create({
             guestName: guestName,
+            lastName: lastName,
             email: email,
             phone: phone,
             adult: adult,

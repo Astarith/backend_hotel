@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const validRoles = ['admin', 'user', 'kasir', 'superadmin'];
 
 const createUser = async (req, res) => {
-    const { name, username, email, password, role } = req.body;
+    const { name, username, email, password, role, phone } = req.body;
     if (!validRoles.includes(role)) {
         return res.status(400).json({ message: 'Invalid role' });
     }
@@ -17,6 +17,7 @@ const createUser = async (req, res) => {
             username: username,
             email: email,
             password: hash,
+            phone: phone,
             role: role
         });
         res.json({ message: 'User Created' });
@@ -27,17 +28,14 @@ const createUser = async (req, res) => {
 
 
 const Login = async (req, res) => {
-
-const loginUser = async (req, res) => {
-
     const {
-        username, password
+        email, password
     } = req.body;
 
     try {
-        const user = await User.findOne({ where: { username } });
+        const user = await User.findOne({ where: { email } });
         if (!user) {
-            return res.status(401).json({ message: "Username tidak ditemukan" });
+            return res.status(401).json({ message: "Email tidak ditemukan" });
         }
 
         const isMatch = bcrypt.compare(password, user.password);
@@ -58,7 +56,7 @@ const loginUser = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-}
 };
+
 
 module.exports = { createUser, Login, };

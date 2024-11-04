@@ -7,10 +7,10 @@ const User = db.define('user', {
         primaryKey: true,
         autoIncrement: true
     },
-    name: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
+    // name: {
+    //     type: DataTypes.STRING(255),
+    //     allowNull: false
+    // },
     username: {
         type: DataTypes.STRING(255),
         allowNull: false
@@ -22,6 +22,10 @@ const User = db.define('user', {
     password: {
         type: DataTypes.STRING(255),
         allowNull: false
+    },
+    phone: {
+        type: DataTypes.STRING(255),
+        allowNull: true
     },
     role: {
         type: DataTypes.ENUM('admin', 'user', 'resepsionis','superadmin',),

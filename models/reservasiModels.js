@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
-const User = require('./userModels');
+const User = require('./user/userModels');
 
 const Reservasi = db.define('reservasi', {
     id: {
@@ -12,6 +12,11 @@ const Reservasi = db.define('reservasi', {
         type: DataTypes.STRING(255),
         allowNull: false
     },
+    lastName: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    
     email: {
         type: DataTypes.STRING(255),
         allowNull: false

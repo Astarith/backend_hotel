@@ -26,19 +26,7 @@ app.use(cookieParser());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(routes);
-
 app.use('/api', routes);
-
-// db.authenticate()
-//  .then(async () => 
-  
-//   console.log('Connection success');
-//   await db.sync({ alter: true });
-//  })
-//   .catch(err => console.log('Error: ' + err));
-
-app.use(routes);
 
   db.authenticate()
     .then(async () => {
