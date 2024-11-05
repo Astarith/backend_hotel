@@ -9,7 +9,7 @@ const { createCheckin, deleteCheckin, updateCheckin, getCheckin, } = require("..
 const { createCheckout, deleteCheckout, updateCheckout, getCheckout,} = require("../controllers/checkout");
 const { createRiwayat, deleteRiwayat, updateRiwayat, getRiwayat, } = require("../controllers/riwayat");
 const { createUser, Login, } = require("../controllers/user");
-const protect = require("../middleware/authentikasi");
+//const protect = require("../middleware/authentikasi");
 
 
 
