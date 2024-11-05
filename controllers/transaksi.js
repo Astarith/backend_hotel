@@ -3,10 +3,10 @@ const Harga = require('../models/hargaModels');
 
 const createTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, hargaId, jumlah, Layanan } = req.body;
+    const { namaPelanggan, hargaId, jumlah, kategori } = req.body;
     const transaksi = await Transaksi.create({
       namaPelanggan,
-      Layanan,
+      kategori,
       jumlah,
       hargaId,
     });
@@ -32,5 +32,14 @@ const getRiwayatTransaksi = async (req, res) => {
     return res.status(500).json({ message: 'Error', error: error.message });
   }
 };
+const deleteTransaksi = async (req, res) => { 
+  try {
+    const { id } = req.params;
+    const transaksiDelete = await Transaksi.destroy({ where: { id } });
+    return res.status(200).json({ message: 'Transaksi berhasil dihapus', data: transaksiDelete });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error', error: error.message });
+  }
+};
 
-module.exports = { createTransaksi, getRiwayatTransaksi };
+module.exports = { createTransaksi, getRiwayatTransaksi, deleteTransaksi };

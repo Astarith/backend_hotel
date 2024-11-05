@@ -13,7 +13,7 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  Layanan: {
+  kategori: {
     type: DataTypes.ENUM('dry clean', 'wash and iron', 'daily laundry'),
     multiple: true,
     allowNull: false

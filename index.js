@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const db = require("./config/database");
 const routes = require('./routes/router');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const User = require('./models/userModels');
 const Transaksi = require('./models/transaksiModels');
 const Harga = require('./models/hargaModels');
@@ -17,6 +18,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use(routes);
 
   db.authenticate()
