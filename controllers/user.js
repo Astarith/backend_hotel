@@ -2,7 +2,7 @@ const User = require('../models/user/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const validRoles = ['admin', 'user', 'kasir', 'superadmin'];
+const validRoles = ['admin', 'user', 'resepsionis', 'superadmin'];
 
 const createUser = async (req, res) => {
     const { name, username, email, password, role, phone } = req.body;

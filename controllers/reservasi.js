@@ -5,7 +5,7 @@ const { FOREIGNKEYS } = require('sequelize/lib/query-types');
 const validPayment = ['transfer', 'cash'];
 
 const createReservasi = async (req, res) => {
-    const { guestName, lastName, email, phone, adult, children, address, paymentMethod, price, remarks, userId } = req.body;
+    const { guestName, email, phone, adult, children, address, paymentMethod, price, remarks, userId } = req.body;
 
     if (!validPayment.includes(paymentMethod)) {
         return res.status(400).json({ message: 'Invalid payment' });
@@ -19,7 +19,6 @@ const createReservasi = async (req, res) => {
 
         await Reservasi.create({
             guestName: guestName,
-            lastName: lastName,
             email: email,
             phone: phone,
             adult: adult,
