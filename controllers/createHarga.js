@@ -2,12 +2,12 @@ const Harga = require('../models/hargaModels');
 
 const createHarga = async (req, res) => {
     try {
-      const { kategori, harga } = req.body;
-      if (!kategori || !harga) {
+      const { jenislayanan, harga } = req.body;
+      if (!jenislayanan || !harga) {
         return res.status(400).json({ message: 'Input tidak lengkap' });
       }
       const hargaBaru = await Harga.create({
-        kategori,
+        jenislayanan,
         harga
       });
       
@@ -19,9 +19,9 @@ const createHarga = async (req, res) => {
   const updateHarga = async (req, res) => {
     try {
       const { id } = req.params;
-      const { kategori, harga } = req.body;
+      const { jenislayanan, harga } = req.body;
       const hargaUpdate = await Harga.update({
-        kategori,
+        jenislayanan,
         harga
       }, {
         where: {

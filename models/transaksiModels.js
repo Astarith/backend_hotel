@@ -13,17 +13,18 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  kategori: {
+  jenislayanan: {
     type: DataTypes.ENUM('dry clean', 'wash and iron', 'daily laundry'),
     multiple: true,
+    allowNull: false
+  },
+  jenislaundry: {
+    type: DataTypes.ENUM('kiloan', 'satuan'),
     allowNull: false
   },
   jumlah: {
     type: DataTypes.STRING(255),
     allowNull: false
-  },
-  totalHarga: {
-    type: DataTypes.INTEGER(255)
   },
   hargaId: {
     type: DataTypes.INTEGER(11),
@@ -31,13 +32,28 @@ const Transaksi = db.define('transaksi', {
       model: Harga,
       key: 'id'
     }
-  }
+  },
+  jumlahUangPelanggan: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  totalHarga: {
+    type: DataTypes.INTEGER(255)
+  },
+  uangKembalian: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+ 
 }, {
   freezeTableName: true,
   hooks: {
     beforeCreate: async (transaksi, options) => {
       const harga = await Harga.findByPk(transaksi.hargaId);
       transaksi.totalHarga = harga.harga * transaksi.jumlah;
+      transaksi.uangKembalian = transaksi.jumlahUangPelanggan - transaksi.totalHarga;
     }
   }
 });
