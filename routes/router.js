@@ -35,7 +35,7 @@ router.patch('/checkout/:id', updateCheckout);
 router.get('/checkout', getCheckout);
 router.post('/checkin', createCheckin);
 router.delete('/checkin/:id', deleteCheckin);
-router.patch('/checkin/:id', updateCheckin);
+router.patch('/checkin/:id', updateCheckin); 
 router.get('/checkin', getCheckin);
 router.post('/riwayat', createRiwayat);
 router.delete('/riwayat/:id', deleteRiwayat);

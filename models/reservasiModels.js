@@ -12,10 +12,6 @@ const Reservasi = db.define('reservasi', {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    lastName: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
     
     email: {
         type: DataTypes.STRING(255),
@@ -26,11 +22,11 @@ const Reservasi = db.define('reservasi', {
         allowNull: false
     },
     adult: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.ENUM('1', '2', '3', '4'),
         allowNull: false
     },
     children: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.ENUM('0', '1', '2', '3', '4'),
         allowNull: false
     },
     address: {
@@ -49,6 +45,7 @@ const Reservasi = db.define('reservasi', {
         type: DataTypes.INTEGER(11),
         allowNull: false
     }  
+    
 
 }, {
     freezeTableName: true
