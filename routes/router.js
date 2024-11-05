@@ -4,9 +4,9 @@ const { createTransaksi, getRiwayatTransaksi, updateStatusTransaksi } = require(
 const { createHarga, updateHarga, deleteHarga, getAllHarga } = require("../controllers/createHarga");
 const protect = require("../middleware/autenticasi");
 
-router.post('/create',protect(['admin']), createUser);
-router.post('/login', loginUser);
-router.post('/transaksi', createTransaksi);
+router.post('/create', createUser);
+router.post('/login',loginUser);
+router.post('/transaksi',protect(['admin']), createTransaksi);
 router.get('/riwayat-transaksi', getRiwayatTransaksi);
 router.put('/transaksi/updateStatus/:id', updateStatusTransaksi); 
 router.post('/harga', createHarga);

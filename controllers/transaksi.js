@@ -3,7 +3,7 @@ const Harga = require('../models/hargaModels');
 
 const createTransaksi = async (req, res) => {
   try {
-    const { namaPelanggan, hargaId, jumlah, kategori, jenis } = req.body;
+    const { namaPelanggan, hargaId, jumlah, jenislayanan, jenislaundry } = req.body;
 
     const harga = await Harga.findByPk(hargaId); 
 
@@ -13,8 +13,8 @@ const createTransaksi = async (req, res) => {
     const totalHarga = harga.harga * jumlah;
     const transaksi = await Transaksi.create({
       namaPelanggan,
-      kategori,
-      jenis,
+      jenislayanan,
+      jenislaundry,
       jumlah,
       hargaId, 
       totalHarga 

@@ -3,25 +3,23 @@ const dotenv = require("dotenv");
 const db = require("./config/database");
 const routes = require('./routes/router');
 const cors = require('cors');
-const harga = require('./controllers/createHarga');
-const transaksi = require('./controllers/transaksi');
-const user = require('./controllers/user');
-const cookieparser = require("cookie-parser")
+const cookieparser = require("cookie-parser");
 
 dotenv.config();
 const app = express();
 
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
-app.use(cookieparser())
-app.use(routes);
+app.use(cookieparser());
 
- db.authenticate()
+app.use('/api', routes);
+
+db.authenticate()
   .then(async () => {
     console.log('Koneksi Database berhasil');
-   await db.sync({ alter: true });
- })
-.catch(err => console.log('Error: ' + err));
+    await db.sync({ alter: true });
+  })
+  .catch(err => console.log('Error: ' + err));
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT 
 app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));

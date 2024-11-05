@@ -26,9 +26,7 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    const {
-        username, password
-    } = req.body;
+    const { username, password } = req.body;
 
     try {
         const user = await User.findOne({ where: { username } });
@@ -36,15 +34,15 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Username tidak ditemukan" });
         }
 
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password); 
         if (!isMatch) {
             return res.status(401).json({ message: "Password salah" });
         }
 
-        // Generate JWT without expiration
+        // Generate JWT tanpa expiration
         const token = jwt.sign(
             { id: user.id, role: user.role },
-            process.env.SECRET_KEY // No expiration time
+            process.env.SECRET_KEY  // No expiration time
         );
 
         // Set token akses tanpa refresh token
