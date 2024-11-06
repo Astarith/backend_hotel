@@ -9,7 +9,9 @@ const Checkin = require('./models/resepsionis/checkinModels');
 const Checkout = require('./models/resepsionis/checkoutModels');
 const Riwayat = require('./models/resepsionis/riwayatModels');
 //const User = require('./models/userModels'); // Impor model User
-//const Reservasi = require('./models/reservasiModels');
+const Reservasi = require('./models/user/reservasiModels');
+const Editroom = require('./models/admin/editroomModels');
+
 
 dotenv.config();
 const app = express();

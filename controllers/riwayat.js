@@ -1,4 +1,3 @@
-
 const Riwayat = require('../models/resepsionis/riwayatModels');
 const validStatus = ['pending', 'approved',];
 

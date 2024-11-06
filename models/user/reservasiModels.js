@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 const User = require('./userModels');
 const { FOREIGNKEYS } = require('sequelize/lib/query-types');
 
@@ -10,6 +10,10 @@ const Reservasi = db.define('reservasi', {
         autoIncrement: true
     },
     guestName: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    lastName: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
@@ -41,15 +45,11 @@ const Reservasi = db.define('reservasi', {
         type: DataTypes.ENUM('transfer', 'cash'),
         allowNull: false
     },
-    price: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false
-    }  
 
 }, {
     freezeTableName: true
 });
 User.hasMany(Reservasi, {FOREIGNKEYS: 'userId'});
 Reservasi.belongsTo(User, {FOREIGNKEYS: 'userId'});
-
+ 
 module.exports = Reservasi;

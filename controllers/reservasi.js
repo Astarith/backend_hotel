@@ -1,6 +1,6 @@
 
-const Reservasi = require('../models/reservasiModels'); 
-const User = require('../models/userModels');
+const Reservasi = require('../models/user/reservasiModels'); 
+const User = require('../models/user/userModels');
 
 const validPayment = ['transfer', 'cash'];
 
