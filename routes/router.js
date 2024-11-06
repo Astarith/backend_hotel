@@ -19,7 +19,11 @@ router.post('/login', Login);
 router.post('/register', createUser);
 
 //reservasi
+
 router.post('/reservasi',  Auth(['user']), createReservasi);
+
+router.post('/reservasi', Auth(['user']), createReservasi);
+
 router.get('/riwayat', getReservasi);
 
 // router room

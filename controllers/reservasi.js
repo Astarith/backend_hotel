@@ -5,8 +5,10 @@ const Reservasi = require('../models/reservasiModels');
 const validPayment = ['transfer', 'cash'];
 
 const createReservasi = async (req, res) => {
+ 
     const { guestName, email, phone, adult, children, address, paymentMethod, price, remarks } = req.body;
     const id = req.user.id;
+    
 
     if (!validPayment.includes(paymentMethod)) {
         return res.status(400).json({ message: 'Invalid payment' });
