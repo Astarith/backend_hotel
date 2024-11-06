@@ -8,6 +8,8 @@ const User = require('./models/user/userModels');
 const Checkin = require('./models/resepsionis/checkinModels');
 const Checkout = require('./models/resepsionis/checkoutModels');
 const Riwayat = require('./models/resepsionis/riwayatModels');
+//const User = require('./models/userModels'); // Impor model User
+//const Reservasi = require('./models/reservasiModels');
 
 dotenv.config();
 const app = express();
@@ -22,6 +24,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(routes);
 
+
+db.authenticate()
+  .then(async () => {
+   console.log('Connection success');
+   await db.sync({ alter: true });
+  })
+   .catch(err => console.log('Error: ' + err));
   db.authenticate()
     .then(async () => {
       console.log('Connection success');

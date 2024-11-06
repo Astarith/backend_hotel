@@ -3,10 +3,14 @@ const { createCheckin, deleteCheckin, updateCheckin, getCheckin, } = require("..
 const { createCheckout, deleteCheckout, updateCheckout, getCheckout,} = require("../controllers/checkout");
 const { createRiwayat, deleteRiwayat, updateRiwayat, getRiwayat, } = require("../controllers/riwayat");
 const { createUser, loginUser, } = require("../controllers/user");
+const { createReservasi, getReservasi } = require("../controllers/reservasi");
 const protect = require("../middleware/authentikasi");
 
 router.post('/user', createUser);
 router.post('/login', loginUser);
+router.post('/register', createUser);
+router.post('/reservasi', createReservasi);
+router.get('/riwayat', getReservasi);
 router.post('/checkout', createCheckout);
 router.delete('/checkout/:id', deleteCheckout);
 router.patch('/checkout/:id', protect(['admin']), updateCheckout);
