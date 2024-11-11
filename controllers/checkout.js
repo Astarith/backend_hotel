@@ -17,14 +17,14 @@ if (!validPaymentstatus.includes(payment_status)) {
   try {
     const icikiwir = await Checkout.create({
       room_status: room_status,
-      checkin: checkin,
-      checkout: checkout,
+      checkin2: checkin,
+      checkout2: checkout,
       other_charge: other_charge,
       payment_method: payment_method,
       payment_status: payment_status,
       nominal: nominal,
-      description: description,
-      remarks: remarks
+      description2: description,
+      remarks2: remarks
     });
     res.json(icikiwir);
   } catch (error) {

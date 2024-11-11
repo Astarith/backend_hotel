@@ -1,30 +1,27 @@
 const {DataTypes} = require('sequelize');
 const db = require('../config/database');
+const Transaksi = require('./transaksiModels');
 
-const Room = db.define('room', {
+const fnb = db.define('history_fnb', {
     id: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
         autoIncrement: true
     },
-    jenis: {
+    name: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    harga: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false
-    },
-    Image: {
-        type: DataTypes.STRING(255),
+    paymentStatus: {
+        type: DataTypes.ENUM('overdue', 'paid'),
         allowNull: true
     },
-    no_room: {
-        type : DataTypes.INTEGER(255),
-        allowNull: false
+    amount: {
+        type: DataTypes.STRING(255),
+        allowNull: true
     }
 }, {
     freezeTableName: true
 });
 
-module.exports = Room;
+module.exports = HistoryFnB;

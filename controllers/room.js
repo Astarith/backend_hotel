@@ -14,29 +14,31 @@ const getRoom = async(req, res) => {
 // Membuat room baru
 const createRoom = async (req, res) => {
     try {
-        console.log(req.file);
-        const { jenis, harga } = req.body;
-
-        // Menambahkan path untuk gambar
-        const Image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
-
-        const newRoom = await Room.create({
-            jenis,
-            harga,
-            Image
-        });
-
-        res.status(201).json({
-            message: 'Room berhasil ditambahkan',
-            data: newRoom
-        });
+      console.log(req.file);
+      const { jenis, harga, no_room } = req.body;
+  
+      // Menambahkan path untuk gambar
+      const Image = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
+  
+      const newRoom = await Room.create({
+        jenis,
+        harga,
+        no_room,
+        Image
+      });
+  
+      res.status(201).json({
+        message: 'Room berhasil ditambahkan',
+        data: newRoom
+      });
     } catch (error) {
-        res.status(500).json({
-            message: 'Terjadi kesalahan',
-            error: error.message
-        });
+      console.log(error);
+      res.status(500).json({
+        message: 'Terjadi kesalahan',
+        error: error.message
+      });
     }
-};
+  };
 
 // Mengupdate room
 const updateRoom = async (req, res) => {
@@ -85,6 +87,7 @@ const deleteRoom = async (req, res) => {
         await room.destroy();
         res.status(200).json({ message: "Room berhasil dihapus" });
     } catch (error) {
+        console.log
         res.status(500).json({
             message: 'Terjadi kesalahan',
             error: error.message
