@@ -1,48 +1,46 @@
 const Transaksi = require('../../models/transaksiModels');
 const DetailTransaksi = require('../../models/detailtransaksiModels');
 const Produk = require('../../models/produkModels');
+const { sequelize } = require('../../models/transaksiModels');  // Import sequelize to use transaction
 
 const createTransaksi = async (req, res) => {
     const { biaya_layanan, detail_transaksi } = req.body;
 
+    const transaction = await sequelize.transaction(); // Start a transaction
     try {
         const newTransaksi = await Transaksi.create({
             biaya_layanan
-        });
+        }, { transaction });
 
         let total_harga = 0;
 
         const detailPromises = detail_transaksi.map(async (item) => {
-            const produk = await Produk.findOne({ where: { id: item.produk_id } });
+            const produk = await Produk.findOne({ where: { id: item.produk_id }, transaction });
             if (!produk) {
-                return res.status(400).json({ message: `Product with ID ${item.produk_id} not found` });
+                throw new Error(`Product with ID ${item.produk_id} not found`);
             }
 
             const total = item.kuantitas * produk.sale_price;
             total_harga += total;
-            const jumlah = total_harga + biaya_layanan;
 
-            console.log(`total untuk produk ID ${item.produk_id}: ${total}`);
-            console.log(`Total harga saat ini: ${total_harga}`);
-
-            return DetailTransaksi.create({
+            await DetailTransaksi.create({
                 transaksi_id: newTransaksi.id,
                 produk_id: item.produk_id,
                 kuantitas: item.kuantitas,
                 harga_satuan: produk.sale_price,
-                total: total,  // Mengganti subtotal dengan total
-            });
+                total: total,
+            }, { transaction });
         });
 
         await Promise.all(detailPromises);
 
-        let total_with_service = total_harga + biaya_layanan;
-
-        console.log(`Total harga setelah ditambah biaya layanan: ${total_with_service}`);
-
+        const total_with_service = total_harga + biaya_layanan;
         await Transaksi.update({ total_harga: total_with_service }, {
-            where: { id: newTransaksi.id }
+            where: { id: newTransaksi.id },
+            transaction
         });
+
+        await transaction.commit(); // Commit the transaction if everything is successful
 
         res.status(201).json({
             message: "Transaction created successfully",
@@ -50,6 +48,7 @@ const createTransaksi = async (req, res) => {
             total_harga: total_with_service
         });
     } catch (error) {
+        await transaction.rollback(); // Rollback if any error occurs
         console.error("Error creating transaction:", error);
         res.status(500).json({ message: "Error creating transaction", error: error.message });
     }

@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const db = require("./config/database");
 const cors = require("cors");
-const path = require('path')
+const path = require('path');
 
 const produkRoutes = require("./routes/produk/routerProduk");
 const transaksiRoutes = require("./routes/transaksi/routerTransaksi");
@@ -22,7 +22,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', produkRoutes);

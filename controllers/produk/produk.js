@@ -1,24 +1,55 @@
 const Produk = require('../../models/produkModels');
 
-const getProdukById = async(req, res) => {
+const getProdukByCategory = async (req, res) => {
     try {
-        const response = await Produk.findOne({
+        // Ambil kategori dari parameter URL
+        const category = req.params.category;
+
+        // Validasi kategori agar hanya menerima "makanan" atau "minuman"
+        if (category !== 'makanan' && category !== 'minuman') {
+            return res.status(400).json({
+                message: 'Kategori harus berupa "makanan" atau "minuman"'
+            });
+        }
+
+        // Ambil semua produk berdasarkan kategori
+        const response = await Produk.findAll({
             where: {
-                id: req.params.id
+                category: category
             }
         });
+
+        if (response.length === 0) {
+            return res.status(404).json({
+                message: `Tidak ada produk ditemukan untuk kategori ${category}`
+            });
+        }
+
         res.status(200).json(response);
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({
+            message: 'Terjadi kesalahan',
+            error: error.message
+        });
     }
-}
+};
+
+
 
 const createProduk = async (req, res) => {
     try {
         const { product_name, description, category, sku, stock_quantity, regular_price, sale_price } = req.body;
-        
+
+        // Validasi kategori agar hanya menerima "makanan" atau "minuman"
+        if (category !== 'makanan' && category !== 'minuman') {
+            return res.status(400).json({
+                message: 'Kategori harus berupa "makanan" atau "minuman"'
+            });
+        }
+
         // Dapatkan URL gambar jika file diunggah
-        const image_url = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
+        const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
         const newProduct = await Produk.create({
             product_name,
@@ -42,6 +73,9 @@ const createProduk = async (req, res) => {
         });
     }
 };
+
+
+
 
 const updateProduk = async (req, res) => {
     try {
@@ -99,4 +133,4 @@ const deleteProduk = async (req, res) => {
     }
 };
 
-module.exports = { getProdukById, createProduk, updateProduk, deleteProduk };
+module.exports = { getProdukByCategory, createProduk, updateProduk, deleteProduk };
